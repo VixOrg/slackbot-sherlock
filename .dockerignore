@@ -1,0 +1,5 @@
+# Ignore everything
+**
+
+# Allow Spring Boot app
+!target/dependency/

@@ -1,0 +1,4 @@
+app:
+  scheduler:
+    jira-status:
+      cron: 0 0/1 * * * *
