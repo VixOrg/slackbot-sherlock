@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.StringSubstitutor;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -23,15 +26,6 @@ public class JiraStatusService {
 
 	private final JiraRestClient jiraRestClient;
 	private final UserProperties userProperties;
-
-	public String buildStatusForAllUsers() {
-		StringBuilder allStatuses = new StringBuilder();
-		for (User user : userProperties.getUsers()) {
-			var userStatus = buildStatusForUser(user);
-			allStatuses.append(userStatus).append("\n");
-		}
-		return allStatuses.toString();
-	}
 
 	public String buildStatusForUserBySlackId(String slackId) {
 		User user = userProperties.getUsers()
@@ -49,7 +43,8 @@ public class JiraStatusService {
 				"What is in progress :female-construction-worker: \n" +
 				buildInProgressStatusForUser(user) +
 				"What is next :rocket: \n" +
-				buildNextItemStatusForUser(user);
+				buildNextItemStatusForUser(user) +
+				"\n--";
 	}
 
 
@@ -106,13 +101,24 @@ public class JiraStatusService {
 
 	private String buildDoneStatusForUser(User user) {
 		StringBuilder statusText = new StringBuilder();
-		var vars = Map.of("user", user.getJiraId());
+		var vars = Map.of("user", user.getJiraId(), "hoursInPast", computeHoursPastForDone());
 		var jqlTemplate = "assignee was ${user} " +
 				" AND status in (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) " +
-				" AND status changed from (\"In Progress\", \"Selected For Development\", Backlog, Groomed, \"Dev In Progress\", \"Dev On Hold\", \"Code Review\") to (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) after -72h " +
+				" AND status changed from (\"In Progress\", \"Selected For Development\", Backlog, Groomed, \"Dev In Progress\", \"Dev On Hold\", \"Code Review\") to (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) after -${hoursInPast}h " +
 				" ORDER BY updated DESC ";
 		var jql = StringSubstitutor.replace(jqlTemplate, vars, "${", "}");
 		return buildIssueReportForQuery(jql);
+	}
+
+	/**
+	 * Depending on the day of the week, the hours in past change (weekend)
+	 */
+	private String computeHoursPastForDone() {
+		Integer hours = 72;
+		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK)).equals(DayOfWeek.MONDAY)) {
+			hours += 48;
+		}
+		return hours.toString();
 	}
 
 	private String buildIssueLine(Issue issue) {

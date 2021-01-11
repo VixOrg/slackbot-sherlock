@@ -1,6 +1,8 @@
 package com.finologee.slackbot.sherlock.service;
 
 
+import com.finologee.slackbot.sherlock.config.props.UserProperties;
+import com.finologee.slackbot.sherlock.model.User;
 import com.slack.api.methods.MethodsClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,12 +15,17 @@ public class SlackMessageService {
 
 	private final JiraStatusService jiraStatusService;
 	private final MethodsClient slackClient;
+	private final UserProperties userProperties;
 
 	public void sendJiraStatusForTeam(String channelId) {
 		log.info("#sendJiraStatusForTeam");
-		var statusText = jiraStatusService.buildStatusForAllUsers();
-		log.info("Posting team status to channel {}", channelId);
-		sendMessage(statusText, channelId);
+		for (User user : userProperties.getUsers()) {
+			var statusText = jiraStatusService.buildStatusForUser(user);
+			log.info("Posting user status to channel {}", channelId);
+			sendMessage(statusText, channelId);
+			threadSleep(1000);
+		}
+		log.info("End of posting team status in {}", channelId);
 	}
 
 	public void sendJiraStatusForUser(String userId, String channelId) {
@@ -36,6 +43,17 @@ public class SlackMessageService {
 					.text(message));
 		}
 		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	private void threadSleep(long time) {
+		try {
+			log.info("Sleeping {} millis", time);
+			Thread.sleep(time);
+		}
+		catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 	}
