@@ -114,8 +114,16 @@ public class JiraStatusService {
 	 * Depending on the day of the week, the hours in past change (weekend)
 	 */
 	private String computeHoursPastForDone() {
+		// three last days
 		Integer hours = 72;
 		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK)).equals(DayOfWeek.MONDAY)) {
+			hours += 48;
+		}
+		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK)).equals(DayOfWeek.TUESDAY)) {
+			hours += 48;
+		}
+		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK))
+				.equals(DayOfWeek.WEDNESDAY)) {
 			hours += 48;
 		}
 		return hours.toString();
