@@ -33,7 +33,16 @@ public class JiraStatusService {
 		return allStatuses.toString();
 	}
 
-	private String buildStatusForUser(User user) {
+	public String buildStatusForUserBySlackId(String slackId) {
+		User user = userProperties.getUsers()
+				.stream()
+				.filter(u -> u.getSlackId().equals(slackId))
+				.findFirst()
+				.orElseThrow();
+		return buildStatusForUser(user);
+	}
+
+	public String buildStatusForUser(User user) {
 		return String.format("Here is the status of <@%s> \n", user.getSlackId()) +
 				"What has been done recently :sunglasses: \n" +
 				buildDoneStatusForUser(user) +
@@ -50,7 +59,7 @@ public class JiraStatusService {
 	private String buildNextItemStatusForUser(User user) {
 		StringBuilder statusText = new StringBuilder();
 		var vars = Map.of("user", user.getJiraId());
-		var jqlTemplate = "assignee = ${user} AND status in (\"Groomed\", \"Dev On Hold\", \"Backlog\") ORDER BY created DESC ";
+		var jqlTemplate = "assignee = ${user} AND status in (\"Groomed\", \"Dev On Hold\", \"Backlog\") ORDER BY priority DESC ";
 		var jql = StringSubstitutor.replace(jqlTemplate, vars, "${", "}");
 		return buildIssueReportForQuery(jql, 5);
 	}
@@ -61,7 +70,7 @@ public class JiraStatusService {
 	private String buildInProgressStatusForUser(User user) {
 		StringBuilder statusText = new StringBuilder();
 		var vars = Map.of("user", user.getJiraId());
-		var jqlTemplate = "assignee = ${user} AND status in (\"In Progress\", \"Dev In Progress\", \"Code Review\") ORDER BY created DESC ";
+		var jqlTemplate = "assignee = ${user} AND status in (\"In Progress\", \"Dev In Progress\", \"Code Review\") ORDER BY updated DESC ";
 		var jql = StringSubstitutor.replace(jqlTemplate, vars, "${", "}");
 		return buildIssueReportForQuery(jql);
 	}
@@ -83,6 +92,10 @@ public class JiraStatusService {
 			if (issues.size() > limit) {
 				statusText.append(" • ...").append(issues.size() - limit).append(" more items\n");
 			}
+
+			if (issues.size() == 0) {
+				statusText.append(" • (empty)\n");
+			}
 			return statusText.toString();
 		}
 		catch (Exception e) {
@@ -96,8 +109,8 @@ public class JiraStatusService {
 		var vars = Map.of("user", user.getJiraId());
 		var jqlTemplate = "assignee was ${user} " +
 				" AND status in (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) " +
-				" AND status changed from (\"In Progress\", \"Selected For Development\", Backlog, Groomed, \"Dev In Progress\", \"Dev On Hold\", \"Code Review\") to (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) after startOfDay(-39h)  " +
-				" ORDER BY created DESC ";
+				" AND status changed from (\"In Progress\", \"Selected For Development\", Backlog, Groomed, \"Dev In Progress\", \"Dev On Hold\", \"Code Review\") to (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) after -72h " +
+				" ORDER BY updated DESC ";
 		var jql = StringSubstitutor.replace(jqlTemplate, vars, "${", "}");
 		return buildIssueReportForQuery(jql);
 	}
