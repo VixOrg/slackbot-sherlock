@@ -10,5 +10,5 @@ app:
       id: bse
   scheduler:
     jira-status:
-      cron: 0 0/5 * * * *
+      cron: 0 35 9 * * *
       channelId: CHLBEN2HJ
