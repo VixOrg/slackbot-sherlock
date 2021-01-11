@@ -38,7 +38,7 @@ public class SlackAppServerConfig {
 			return ctx.ack();
 		});
 		app.message(Pattern.compile("^.*"), (payload, ctx) -> {
-			log.info("Received message {}", payload.getEvent().getText());
+			log.info("Received message");
 			messageHandler.handleMessageEvent(ctx.client(), payload, ctx.getChannelId());
 			return ctx.ack();
 		});
