@@ -9,6 +9,7 @@ import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.ZoneId;
 
 @Slf4j
 @Component
@@ -21,10 +22,11 @@ public class JiraStatusReportScheduler {
 
 	@PostConstruct
 	public void reportStatus() {
-		log.info("Will sendJiraStatusForTeam with cron={}", jiraStatusReportSchedulerProperties.getCron());
-		taskScheduler.schedule(
-				() -> slackMessageService.sendJiraStatusForTeam(jiraStatusReportSchedulerProperties.getChannelId()),
-				new CronTrigger(jiraStatusReportSchedulerProperties.getCron()));
+		var zone = ZoneId.of("Europe/Luxembourg");
+		var cron = new CronTrigger(jiraStatusReportSchedulerProperties.getCron(), zone);
+		log.info("Will sendJiraStatusForTeam with cron={}, zone={}", jiraStatusReportSchedulerProperties.getCron(),zone.getId());
+		taskScheduler.schedule(() -> slackMessageService.sendJiraStatusForTeam(jiraStatusReportSchedulerProperties
+				.getChannelId()), cron);
 	}
 
 }

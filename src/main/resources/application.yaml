@@ -34,5 +34,5 @@ app:
       id: rma
   scheduler:
     jira-status:
-      cron: 0 50 8 * * *
+      cron: 0 31 9 ? * MON-FRI
       channelId: CHLBEN2HJ
