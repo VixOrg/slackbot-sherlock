@@ -6,11 +6,14 @@ import com.finologee.slackbot.sherlock.config.props.UserProperties;
 import com.finologee.slackbot.sherlock.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +39,7 @@ public class JiraStatusService {
 		return buildStatusForUser(user);
 	}
 
+
 	public String buildStatusForUser(User user) {
 		return String.format("Here is the status of <@%s> \n", user.getSlackId()) +
 				"What has been done recently :sunglasses: \n" +
@@ -45,6 +49,15 @@ public class JiraStatusService {
 				"What is next :rocket: \n" +
 				buildNextItemStatusForUser(user) +
 				"\n--";
+	}
+
+	/**
+	 * Represents the issues for the user that will be handled soon
+	 */
+	public String buildLastReleasesReport() {
+		StringBuilder statusText = new StringBuilder();
+		var jqlTemplate = "project in (Digicash, \"Digital Onboarding\", Mpulse, \"PSD2 Hub\", \"Micro Services\", \"KYC Manager\", ENPAY) AND type in (Epic, Release) AND cf[10075] is not EMPTY ORDER BY cf[10075] DESC ";
+		return buildIssueReportForReleases(jqlTemplate, 10);
 	}
 
 
@@ -134,6 +147,47 @@ public class JiraStatusService {
 				.getKey() + ">" +
 				" (" + issue.getStatus().getName() + ") : " +
 				issue.getSummary();
+	}
+
+	private String buildReleaseIssueLine(Issue issue) {
+		return " • [" + formatDate((String) issue.getFieldByName("Release end date")
+				.getValue()) + "] <https://finologee.atlassian.net/browse/" + issue.getKey() + "|" + issue
+				.getKey() + ">" +
+				" (" + issue.getStatus().getName() + ") : " +
+				issue.getSummary();
+	}
+
+	private String formatDate(String releaseEndDate) {
+		if (StringUtils.isNotEmpty(releaseEndDate)) {
+			var localDateTime = LocalDateTime.parse(releaseEndDate.substring(0, 16), DateTimeFormatter
+					.ofPattern("yyyy-MM-dd'T'HH:mm"));
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM HH:mm");
+			return localDateTime.format(formatter);
+		}
+		else {
+			return "empty";
+		}
+	}
+
+
+	private String buildIssueReportForReleases(String jql, int limit) {
+		var response = jiraRestClient.getSearchClient().searchJql(jql);
+		var statusText = new StringBuilder();
+		try {
+			var issues = StreamSupport
+					.stream(response.get().getIssues().spliterator(), false)
+					.collect(Collectors.toList());
+			issues.stream()
+					.limit(limit)
+					.forEach(issue -> statusText.append(buildReleaseIssueLine(issue)).append("\n"));
+			if (issues.size() == 0) {
+				statusText.append(" • (empty)\n");
+			}
+			return statusText.toString();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

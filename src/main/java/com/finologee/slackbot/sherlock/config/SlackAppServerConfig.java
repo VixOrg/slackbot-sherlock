@@ -1,7 +1,6 @@
 package com.finologee.slackbot.sherlock.config;
 
 import com.finologee.slackbot.sherlock.config.props.SlackProperties;
-import com.finologee.slackbot.sherlock.handler.AppMentionHandler;
 import com.finologee.slackbot.sherlock.handler.MessageHandler;
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.AppConfig;
@@ -18,9 +17,6 @@ import java.util.regex.Pattern;
 public class SlackAppServerConfig {
 
 	@Autowired
-	private AppMentionHandler appMentionEventHandler;
-
-	@Autowired
 	private MessageHandler messageHandler;
 
 	@Autowired
@@ -34,12 +30,14 @@ public class SlackAppServerConfig {
 				.build());
 		app.event(AppMentionEvent.class, (payload, ctx) -> {
 			log.info("Received event app_mention");
-			appMentionEventHandler.handleAppMentionEvent(ctx.client(), payload, ctx.getChannelId());
+			messageHandler.handleMessage(ctx.client(), payload.getEvent()
+					.getText(), payload.getEvent().getUser(), ctx.getChannelId(), true);
 			return ctx.ack();
 		});
 		app.message(Pattern.compile("^.*"), (payload, ctx) -> {
 			log.info("Received message");
-			messageHandler.handleMessageEvent(ctx.client(), payload, ctx.getChannelId());
+			messageHandler.handleMessage(ctx.client(), payload.getEvent()
+					.getText(), payload.getEvent().getUser(), ctx.getChannelId(), false);
 			return ctx.ack();
 		});
 		return app;

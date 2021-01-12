@@ -35,6 +35,13 @@ public class SlackMessageService {
 		sendMessage(statusText, channelId);
 	}
 
+	public void sendLastReleasesReport(String channelId) {
+		log.info("#sendLastReleasesReport");
+		var statusText = jiraStatusService.buildLastReleasesReport();
+		log.info("Posting last releases report to channel {}", channelId);
+		sendMessage(statusText, channelId);
+	}
+
 
 	public void sendMessage(String message, String channelId) {
 		try {
