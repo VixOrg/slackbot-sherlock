@@ -6,4 +6,5 @@ import lombok.Data;
 public class User {
 	private String slackId;
 	private String jiraId;
+	private Boolean wantsJiraStatusInChannel = false;
 }

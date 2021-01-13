@@ -150,7 +150,7 @@ public class JiraStatusService {
 	}
 
 	private String buildReleaseIssueLine(Issue issue) {
-		return " • [" + formatDate((String) issue.getFieldByName("Release end date")
+		return " • [" + formatDate((String) issue.getFieldByName("Release start date")
 				.getValue()) + "] <https://finologee.atlassian.net/browse/" + issue.getKey() + "|" + issue
 				.getKey() + ">" +
 				" (" + issue.getStatus().getName() + ") : " +

@@ -7,6 +7,7 @@ app:
   users:
     - slackId: U784J8M51
       jiraId: "557058:d332697f-ed64-413b-a97d-b22bbd1f5c0e"
+      wantsJiraStatusInChannel: true
       id: bse
     - slackId: U791G1WT0
       jiraId: "557058:186007d9-742a-4b23-bcda-c30ef0bfc541"
@@ -34,5 +35,5 @@ app:
       id: rma
   scheduler:
     jira-status:
-      cron: 0 31 9 ? * MON-FRI
+      cron: 0 30 9 ? * MON-FRI
       channelId: CHLBEN2HJ

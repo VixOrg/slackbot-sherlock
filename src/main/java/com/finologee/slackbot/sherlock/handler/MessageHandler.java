@@ -32,7 +32,7 @@ public class MessageHandler {
 		if (Stream.of("hello", "hi").anyMatch(text::contains)) {
 			greetings(channelId, userId);
 		}
-		if (Stream.of("last releases").allMatch(text::contains)) {
+		if (Stream.of("last release").allMatch(text::contains)) {
 			wantsLastReleases(channelId);
 		}
 	}

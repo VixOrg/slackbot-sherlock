@@ -19,12 +19,22 @@ public class SlackMessageService {
 
 	public void sendJiraStatusForTeam(String channelId) {
 		log.info("#sendJiraStatusForTeam");
-		for (User user : userProperties.getUsers()) {
-			var statusText = jiraStatusService.buildStatusForUser(user);
-			log.info("Posting user status to channel {}", channelId);
-			sendMessage(statusText, channelId);
-			threadSleep(1000);
-		}
+		userProperties.getUsers()
+				.forEach(user -> {
+					sendJiraStatusForUser(user.getSlackId(), channelId);
+					threadSleep(1000);
+				});
+		log.info("End of posting team status in {}", channelId);
+	}
+
+
+	public void sendJiraStatusForUsersThatAgree(String channelId) {
+		log.info("#sendJiraStatusForUsersThatAgree");
+		userProperties.getUsers().stream().filter(User::getWantsJiraStatusInChannel)
+				.forEach(user -> {
+					sendJiraStatusForUser(user.getSlackId(), channelId);
+					threadSleep(1000);
+				});
 		log.info("End of posting team status in {}", channelId);
 	}
 

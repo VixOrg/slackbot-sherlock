@@ -25,7 +25,7 @@ public class JiraStatusReportScheduler {
 		var zone = ZoneId.of("Europe/Luxembourg");
 		var cron = new CronTrigger(jiraStatusReportSchedulerProperties.getCron(), zone);
 		log.info("Will sendJiraStatusForTeam with cron={}, zone={}", jiraStatusReportSchedulerProperties.getCron(),zone.getId());
-		taskScheduler.schedule(() -> slackMessageService.sendJiraStatusForTeam(jiraStatusReportSchedulerProperties
+		taskScheduler.schedule(() -> slackMessageService.sendJiraStatusForUsersThatAgree(jiraStatusReportSchedulerProperties
 				.getChannelId()), cron);
 	}
 
