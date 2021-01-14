@@ -80,6 +80,7 @@ public class MessageHandler {
 		message.append(" • team status - display the team status (for users opted in to be in the wall of fame)\n");
 		message.append(" • last release - display last releases from Jira\n");
 		message.append(" • <project> sprint status  - display the summary of the open sprint of <project> in Jira.\n\t\tExample: enpay sprint status\n");
+		message.append("That's it!");
 		slackMessageService.sendMessage(message.toString(), channelId);
 	}
 }
