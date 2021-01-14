@@ -50,9 +50,9 @@ public class JiraSprintStatusService {
 			var statusText = new StringBuilder();
 
 			statusText.append(buildTicketStatusSummary(project, issues));
-			statusText.append(buildEstimateSummary(issues, "Σ Original Estimate","\t\t"));
-			statusText.append(buildEstimateSummary(issues, "Σ Remaining Estimate", "\t"));
-			statusText.append(buildEstimateSummary(issues, "Σ Time Spent", "\t\t\t\t\t"));
+			statusText.append(buildEstimateSummary(issues, "Σ Original Estimate"));
+			statusText.append(buildEstimateSummary(issues, "Σ Remaining Estimate"));
+			statusText.append(buildEstimateSummary(issues, "Σ Time Spent"));
 
 			return statusText.toString();
 		} catch (Exception e) {
@@ -96,24 +96,23 @@ public class JiraSprintStatusService {
 
 		var statusText = new StringBuilder();
 		statusText.append(totalIssueCount).append(" issues in open sprint(s) in ").append(project)
-				.append(":\n\tTodo:\t\t\t\t\t").append(toDoIssueCount)
+				.append(":\n\tTodo: ").append(toDoIssueCount)
 				// .append("(").append(toDoStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tDev in progress\t").append(devInProgressIssueCount)
+				.append("\n\tDev in progress: ").append(devInProgressIssueCount)
 				// .append("(").append(devInProgressStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tIn testing\t\t\t\t").append(inTestingIssueCount)
+				.append("\n\tIn testing: ").append(inTestingIssueCount)
 				// .append("(").append(inTestingStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tDone\t\t\t\t\t").append(doneIssueCount)
+				.append("\n\tDone: ").append(doneIssueCount)
 				// .append("(").append(doneStatuses.stream().collect(Collectors.joining(","))).append(")")
 				.append("\n\n");
 
 		return statusText.toString();
 	}
 
-	private String buildEstimateSummary(List<Issue> issues, String fieldName, String tabs) {
+	private String buildEstimateSummary(List<Issue> issues, String fieldName) {
 		int sum = issues.stream().map(issue -> getIssueOriginalEstimate(issue, fieldName)).collect(Collectors.summingInt(Integer::intValue));
 		return new StringBuilder(fieldName)
-				.append(":")
-				.append(tabs)
+				.append(": ")
 				.append(sum / 60 / 60)
 				.append("h\n").toString();
 	}
