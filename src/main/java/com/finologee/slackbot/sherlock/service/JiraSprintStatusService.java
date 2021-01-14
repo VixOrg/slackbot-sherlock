@@ -50,9 +50,9 @@ public class JiraSprintStatusService {
 			var statusText = new StringBuilder();
 
 			statusText.append(buildTicketStatusSummary(project, issues));
-			statusText.append(buildEstimateSummary(issues, "Σ Original Estimate"));
-			statusText.append(buildEstimateSummary(issues, "Σ Remaining Estimate"));
-			statusText.append(buildEstimateSummary(issues, "Σ Time Spent"));
+			statusText.append(buildEstimateSummary(issues, "Σ Original Estimate","\t\t"));
+			statusText.append(buildEstimateSummary(issues, "Σ Remaining Estimate", "\t"));
+			statusText.append(buildEstimateSummary(issues, "Σ Time Spent", "\t\t\t\t"));
 
 			return statusText.toString();
 		} catch (Exception e) {
@@ -95,24 +95,25 @@ public class JiraSprintStatusService {
 		// 		0 Done
 
 		var statusText = new StringBuilder();
-		statusText.append(totalIssueCount).append(" issues in open sprint(s) in ").append(project).append(":\n\t").append(toDoIssueCount).append("\tTodo")
+		statusText.append(totalIssueCount).append(" issues in open sprint(s) in ").append(project)
+				.append(":\n\tTodo:\t\t\t\t").append(toDoIssueCount)
 				// .append("(").append(toDoStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\t").append(devInProgressIssueCount).append("\tDev in progress")
+				.append("\n\tDev in progress\t").append(devInProgressIssueCount)
 				// .append("(").append(devInProgressStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\t").append(inTestingIssueCount).append("\tIn testing")
+				.append("\n\tIn testing\t\t\t").append(inTestingIssueCount)
 				// .append("(").append(inTestingStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\t").append(doneIssueCount).append("\tDone")
+				.append("\n\tDone\t\t\t\t").append(doneIssueCount)
 				// .append("(").append(doneStatuses.stream().collect(Collectors.joining(","))).append(")")
 				.append("\n\n");
 
 		return statusText.toString();
 	}
 
-	private String buildEstimateSummary(List<Issue> issues, String fieldName) {
+	private String buildEstimateSummary(List<Issue> issues, String fieldName, String tabs) {
 		int sum = issues.stream().map(issue -> getIssueOriginalEstimate(issue, fieldName)).collect(Collectors.summingInt(Integer::intValue));
 		return new StringBuilder(fieldName)
-				.append(":\t")
-				.append(fieldName.contains("Time Spent") ? "\t\t" : "")
+				.append(":")
+				.append(tabs)
 				.append(sum / 60 / 60)
 				.append("h\n").toString();
 	}
@@ -128,8 +129,11 @@ public class JiraSprintStatusService {
 	 * @return
 	 */
 	public static String parseProject(String text) {
-		String project = StringUtils.substringAfterLast(
-				StringUtils.trimToEmpty(StringUtils.substringBeforeLast(text, "sprint status")), " ").toUpperCase();
+		String textBeforeSprintStatus = StringUtils.trimToEmpty(StringUtils.substringBeforeLast(text, "sprint status"));
+		String project = textBeforeSprintStatus;
+		if(textBeforeSprintStatus.contains(" ")) {
+			project = StringUtils.substringAfterLast(textBeforeSprintStatus, " ");
+		}
 		return project;
 	}
 }

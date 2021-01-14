@@ -38,7 +38,7 @@ public class MessageHandler {
 			wantsLastReleases(channelId);
 		}
 		if (Stream.of("sprint status").allMatch(text.toLowerCase()::contains)) {
-			wantsSprintStatus(channelId, userId, JiraSprintStatusService.parseProject(text));
+			wantsSprintStatus(channelId, userId, JiraSprintStatusService.parseProject(text.toLowerCase()));
 		}
 		if (Stream.of("help").allMatch(text.toLowerCase()::contains)) {
 			displayHelp(channelId, userId);
@@ -73,13 +73,13 @@ public class MessageHandler {
 	public void displayHelp(String channelId, String userId) {
 		log.info("#wantsHelp userId={} channelId={}", userId, channelId);
 		var message = new StringBuilder();
-		message.append(String.format("Here is how I can help you sir <@%s>:", userId));
-		message.append(" • hi, hello - greetings");
-		message.append(" • h e l p (no spaces) - display this message");
-		message.append(" • my status - display my status using Jira");
-		message.append(" • team status - display the team status (for users opted in to be in the wall of fame)");
-		message.append(" • last release - display last releases from Jira");
-		message.append(" • <project> sprint status  - display the summary of the open sprint of <project> in Jira. Example: enpay sprint status");
+		message.append(String.format("Here is how I can help you sir <@%s>:\n", userId));
+		message.append(" • hi, hello - greetings\n");
+		message.append(" • h e l p (no spaces) - display this message\n");
+		message.append(" • my status - display my status using Jira\n");
+		message.append(" • team status - display the team status (for users opted in to be in the wall of fame)\n");
+		message.append(" • last release - display last releases from Jira\n");
+		message.append(" • <project> sprint status  - display the summary of the open sprint of <project> in Jira.\n\t\tExample: enpay sprint status\n");
 		slackMessageService.sendMessage(message.toString(), channelId);
 	}
 }

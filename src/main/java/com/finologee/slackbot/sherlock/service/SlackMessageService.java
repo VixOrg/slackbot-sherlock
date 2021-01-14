@@ -54,7 +54,7 @@ public class SlackMessageService {
 	}
 	
 	public void sendProjectSprintStatusReport(String channelId, String userId, String project) {
-	  log.info("#sendProjectSprintStatusReport");
+	  log.info("#sendProjectSprintStatusReport for project {}", project);
       var statusText = jiraSprintStatusService.buildProjectSprintStatusReport(userId, project);
       log.info("Posting project sprint status report to channel {}", channelId);
       sendMessage(statusText, channelId);
