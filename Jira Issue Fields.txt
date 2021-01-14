@@ -1,0 +1,130 @@
+IssueField{id=statuscategorychangedate, name=Status Category Changed, type=null, value=2021-01-14T12:31:01.925+0100}
+IssueField{id=customfield_10190, name=Pentest - Point of contact (operations), type=null, value=null}
+IssueField{id=customfield_10191, name=Expected delivery date, type=null, value=null}
+IssueField{id=customfield_10070, name=Request language, type=null, value=null}
+IssueField{id=customfield_10192, name=Premium Ticket, type=null, value={"self":"https:\/\/finologee.atlassian.net\/rest\/api\/2\/customFieldOption\/10398","value":"No","id":"10398"}}
+IssueField{id=customfield_10071, name=Impact, type=null, value=null}
+IssueField{id=customfield_10072, name=Change type, type=null, value=null}
+IssueField{id=customfield_10073, name=Change risk, type=null, value=null}
+IssueField{id=customfield_10074, name=Change reason, type=null, value=null}
+IssueField{id=customfield_10075, name=Release start date, type=null, value=null}
+IssueField{id=customfield_10076, name=Release end date, type=null, value=null}
+IssueField{id=customfield_10077, name=Story point estimate, type=null, value=null}
+IssueField{id=customfield_10111, name=Current behaviour, type=null, value=null}
+IssueField{id=customfield_10078, name=Type, type=null, value={"self":"https:\/\/finologee.atlassian.net\/rest\/api\/2\/customFieldOption\/10026","value":"Payment","id":"10026"}}
+IssueField{id=customfield_10112, name=Expected behaviour, type=null, value=null}
+IssueField{id=customfield_10079, name=Payer ID, type=null, value=null}
+IssueField{id=customfield_10113, name=Steps to reproduce, type=null, value=null}
+IssueField{id=customfield_10114, name=Use case, type=null, value=null}
+IssueField{id=customfield_10104, name=Technical environment, type=null, value=null}
+IssueField{id=customfield_10105, name=Company name, type=null, value=null}
+IssueField{id=customfield_10106, name=Phone number, type=null, value=null}
+IssueField{id=customfield_10109, name=External issue ID, type=null, value=null}
+IssueField{id=lastViewed, name=Last Viewed, type=null, value=null}
+IssueField{id=customfield_10180, name=Affected services, type=null, value=null}
+IssueField{id=customfield_10060, name=Severity, type=null, value=null}
+IssueField{id=customfield_10181, name=Escalation, type=null, value=null}
+IssueField{id=customfield_10182, name=Operator, type=null, value=null}
+IssueField{id=customfield_10061, name=Start date, type=null, value=null}
+IssueField{id=customfield_10062, name=Request Type, type=null, value=null}
+IssueField{id=customfield_10183, name=Timesheet category, type=null, value={"self":"https:\/\/finologee.atlassian.net\/rest\/api\/2\/customFieldOption\/10387","value":"Support","id":"10387"}}
+IssueField{id=customfield_10063, name=Request participants, type=null, value=[]}
+IssueField{id=customfield_10184, name=Supplier alert type, type=null, value=null}
+IssueField{id=customfield_10185, name=Epic start date, type=null, value=null}
+IssueField{id=customfield_10064, name=Satisfaction, type=null, value=null}
+IssueField{id=customfield_10186, name=Epic end date, type=null, value=null}
+IssueField{id=customfield_10065, name=Satisfaction date, type=null, value=null}
+IssueField{id=customfield_10066, name=Approvals, type=null, value=null}
+IssueField{id=customfield_10187, name=Pentest - Technical scope, type=null, value=null}
+IssueField{id=customfield_10188, name=Pentest - Tests details, type=null, value=null}
+IssueField{id=customfield_10068, name=Time to resolution, type=null, value=null}
+IssueField{id=customfield_10101, name=Time to resolve, type=null, value=null}
+IssueField{id=customfield_10189, name=Pentest - Point of contact (responsible), type=null, value=null}
+IssueField{id=customfield_10069, name=Time to first response, type=null, value=null}
+IssueField{id=aggregatetimeoriginalestimate, name=Σ Original Estimate, type=null, value=1800}
+IssueField{id=timeestimate, name=Remaining Estimate, type=null, value=900}
+IssueField{id=customfield_10170, name=Refund required, type=null, value=null}
+IssueField{id=customfield_10171, name=User complaint ticket ID, type=null, value=FNCC-[TO BE COMPLETED]}
+IssueField{id=customfield_10172, name=Reminder sent, type=null, value={"self":"https:\/\/finologee.atlassian.net\/rest\/api\/2\/customFieldOption\/10359","value":"No","id":"10359"}}
+IssueField{id=customfield_10173, name=Target start, type=null, value=null}
+IssueField{id=customfield_10174, name=Target end, type=null, value=null}
+IssueField{id=customfield_10178, name=Shortcode, type=null, value=null}
+IssueField{id=customfield_10179, name=Supplier impact, type=null, value=null}
+IssueField{id=customfield_10059, name=Flagged, type=null, value=null}
+IssueField{id=aggregatetimeestimate, name=Σ Remaining Estimate, type=null, value=900}
+IssueField{id=creator, name=Creator, type=null, value={"self":"https:\/\/finologee.atlassian.net\/rest\/api\/2\/user?accountId=5d036b062686680c5ae17e78","accountId":"5d036b062686680c5ae17e78","emailAddress":"andre.gomes@finologee.com","avatarUrls":{"48x48":"https:\/\/avatar-management--avatars.us-west-2.prod.public.atl-paas.net\/5d036b062686680c5ae17e78\/10bb11d2-0ddd-454b-bf86-38a56123a25b\/48","24x24":"https:\/\/avatar-management--avatars.us-west-2.prod.public.atl-paas.net\/5d036b062686680c5ae17e78\/10bb11d2-0ddd-454b-bf86-38a56123a25b\/24","16x16":"https:\/\/avatar-management--avatars.us-west-2.prod.public.atl-paas.net\/5d036b062686680c5ae17e78\/10bb11d2-0ddd-454b-bf86-38a56123a25b\/16","32x32":"https:\/\/avatar-management--avatars.us-west-2.prod.public.atl-paas.net\/5d036b062686680c5ae17e78\/10bb11d2-0ddd-454b-bf86-38a56123a25b\/32"},"displayName":"Andre Gomes","active":true,"timeZone":"Europe\/Paris","accountType":"atlassian"}}
+IssueField{id=customfield_10160, name=Infrastructure deployment instructions, type=null, value=null}
+IssueField{id=customfield_10161, name=Test champs, type=null, value=null}
+IssueField{id=customfield_10165, name=MO Premium SC, type=null, value=null}
+IssueField{id=aggregateprogress, name=Σ Progress, type=null, value={"progress":900,"total":1800,"percent":50}}
+IssueField{id=customfield_10166, name=MT Premium SC, type=null, value=null}
+IssueField{id=customfield_10167, name=Product, type=null, value=null}
+IssueField{id=customfield_10168, name=Additional information, type=null, value=null}
+IssueField{id=customfield_10159, name=Docker image, type=null, value=null}
+IssueField{id=progress, name=Progress, type=null, value={"progress":900,"total":1800,"percent":50}}
+IssueField{id=timespent, name=Time Spent, type=null, value=900}
+IssueField{id=customfield_10154, name=Request Type (for charts), type=null, value=null}
+IssueField{id=aggregatetimespent, name=Σ Time Spent, type=null, value=900}
+IssueField{id=customfield_10156, name=Impacted products, type=null, value=null}
+IssueField{id=customfield_10158, name=Downtime (HH.MM), type=null, value=null}
+IssueField{id=customfield_10148, name=New e-mail subject, type=null, value=null}
+IssueField{id=customfield_10149, name=Due Date, type=null, value=null}
+IssueField{id=resolutiondate, name=Resolved, type=null, value=null}
+IssueField{id=workratio, name=Work Ratio, type=null, value=50}
+IssueField{id=customfield_10140, name=Keyboard type, type=null, value=null}
+IssueField{id=customfield_10141, name=Desktop place, type=null, value=null}
+IssueField{id=customfield_10142, name=Phone extension, type=null, value=null}
+IssueField{id=customfield_10143, name=Mobile phone, type=null, value=null}
+IssueField{id=customfield_10144, name=Sharepoint access rights, type=null, value=null}
+IssueField{id=customfield_10145, name=Are there any special notes for the new starter?, type=null, value=null}
+IssueField{id=customfield_10146, name=Job Type, type=null, value=null}
+IssueField{id=customfield_10147, name=PTA, type=null, value=null}
+IssueField{id=customfield_10137, name=E-mail body, type=null, value=null}
+IssueField{id=customfield_10138, name=Job Type, type=null, value=null}
+IssueField{id=customfield_10139, name=Duration, type=null, value=null}
+IssueField{id=customfield_10090, name=Time to response, type=null, value=null}
+IssueField{id=customfield_10094, name=MNO Name, type=null, value=null}
+IssueField{id=timeoriginalestimate, name=Original Estimate, type=null, value=1800}
+IssueField{id=customfield_10095, name=Other MNO Name, type=null, value=null}
+IssueField{id=customfield_10096, name=Hiring manager, type=null, value=null}
+IssueField{id=customfield_10130, name=Employment type, type=null, value=null}
+IssueField{id=customfield_10097, name=Hiring department, type=null, value=null}
+IssueField{id=customfield_10010, name=Sprint, type=null, value=[{"id":104,"name":"ENPAY Sprint 2021-01-04","state":"active","boardId":30,"goal":"","startDate":"2021-01-04T08:33:49.696Z","endDate":"2021-01-18T08:33:00.000Z"}]}
+IssueField{id=customfield_10131, name=Job title, type=null, value=null}
+IssueField{id=customfield_10098, name=Job role, type=null, value=null}
+IssueField{id=customfield_10011, name=Rank, type=null, value=0|i01olf:}
+IssueField{id=customfield_10132, name=Manager, type=null, value=null}
+IssueField{id=customfield_10012, name=[CHART] Date of First Response, type=null, value=null}
+IssueField{id=customfield_10133, name=Last working day, type=null, value=null}
+IssueField{id=customfield_10134, name=Resignation date, type=null, value=null}
+IssueField{id=customfield_10013, name=[CHART] Time in Status, type=null, value=null}
+IssueField{id=customfield_10135, name=Product Key, type=null, value=null}
+IssueField{id=customfield_10126, name=Product / Report, type=null, value=null}
+IssueField{id=customfield_10127, name=Curl command, type=null, value=null}
+IssueField{id=customfield_10128, name=Start date, type=null, value=null}
+IssueField{id=security, name=Security Level, type=null, value=null}
+IssueField{id=customfield_10008, name=Epic Link, type=null, value=null}
+IssueField{id=customfield_10129, name=Employee location, type=null, value=null}
+IssueField{id=customfield_10009, name=Parent Link, type=null, value={"hasEpicLinkFieldDependency":false,"showField":false,"nonEditableReason":{"reason":"EPIC_LINK_SHOULD_BE_USED","message":"To set an epic as the parent, use the epic link instead"}}}
+IssueField{id=customfield_10080, name=Priority (FNCC), type=null, value={"self":"https:\/\/finologee.atlassian.net\/rest\/api\/2\/customFieldOption\/10033","value":"P4","id":"10033"}}
+IssueField{id=customfield_10082, name=Issue color, type=null, value=null}
+IssueField{id=customfield_10083, name=Merchand ID, type=null, value=null}
+IssueField{id=customfield_10084, name=Time to resolve, type=null, value=null}
+IssueField{id=customfield_10086, name=Customer Name, type=null, value=null}
+IssueField{id=customfield_10087, name=Other Customer Name, type=null, value=null}
+IssueField{id=customfield_10120, name=Start, type=null, value=null}
+IssueField{id=customfield_10000, name=development, type=null, value={pullrequest={dataType=pullrequest, state=OPEN, stateCount=1}, json={"cachedValue":{"errors":[],"summary":{"pullrequest":{"overall":{"count":1,"lastUpdated":"2021-01-14T12:06:29.628+0100","stateCount":1,"state":"OPEN","dataType":"pullrequest","open":true},"byInstanceType":{"bitbucket":{"count":1,"name":"Bitbucket Cloud"}}}}},"isStale":true}}}
+IssueField{id=customfield_10121, name=Finish, type=null, value=null}
+IssueField{id=customfield_10088, name=TPP Name, type=null, value=null}
+IssueField{id=customfield_10001, name=Team, type=null, value={"id":"56","title":"ENPAY Dev Team","avatarUrl":"https:\/\/finologee.atlassian.net\/secure\/projectavatar?size=medium&s=medium&pid=10066&avatarId=10542","isShared":true}}
+IssueField{id=customfield_10089, name=Resolution time, type=null, value=null}
+IssueField{id=customfield_10122, name=Finish, type=null, value=null}
+IssueField{id=customfield_10123, name=Start, type=null, value=null}
+IssueField{id=customfield_10124, name=Development required, type=null, value=null}
+IssueField{id=customfield_10004, name=Organizations, type=null, value=null}
+IssueField{id=customfield_10115, name=Consent ID, type=null, value=null}
+IssueField{id=customfield_10116, name=Payment ID, type=null, value=null}
+IssueField{id=environment, name=Environment, type=null, value=null}
+IssueField{id=customfield_10117, name=Reporting type, type=null, value=null}
+IssueField{id=customfield_10118, name=Reporting request type, type=null, value=null}
+IssueField{id=customfield_10119, name=Product / Subcategory, type=null, value=null}

@@ -1,15 +1,5 @@
 package com.finologee.slackbot.sherlock.service;
 
-import com.atlassian.jira.rest.client.api.JiraRestClient;
-import com.atlassian.jira.rest.client.api.domain.Issue;
-import com.finologee.slackbot.sherlock.config.props.UserProperties;
-import com.finologee.slackbot.sherlock.model.User;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringSubstitutor;
-import org.springframework.stereotype.Service;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,10 +9,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.atlassian.jira.rest.client.api.JiraRestClient;
+import com.atlassian.jira.rest.client.api.domain.Issue;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringSubstitutor;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+import com.finologee.slackbot.sherlock.config.props.UserProperties;
+import com.finologee.slackbot.sherlock.model.User;
+
 /**
  * This class is able to inspect statuses in jira
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JiraStatusService {
@@ -39,7 +39,6 @@ public class JiraStatusService {
 		return buildStatusForUser(user);
 	}
 
-
 	public String buildStatusForUser(User user) {
 		return String.format("Here is the status of <@%s> \n", user.getSlackId()) +
 				"What has been done recently :sunglasses: \n" +
@@ -55,17 +54,14 @@ public class JiraStatusService {
 	 * Represents the issues for the user that will be handled soon
 	 */
 	public String buildLastReleasesReport() {
-		StringBuilder statusText = new StringBuilder();
 		var jqlTemplate = "project in (Digicash, \"Digital Onboarding\", Mpulse, \"PSD2 Hub\", \"Micro Services\", \"KYC Manager\", ENPAY) AND type in (Epic, Release) AND cf[10075] is not EMPTY ORDER BY cf[10075] DESC ";
 		return buildIssueReportForReleases(jqlTemplate, 10);
 	}
-
 
 	/**
 	 * Represents the issues for the user that will be handled soon
 	 */
 	private String buildNextItemStatusForUser(User user) {
-		StringBuilder statusText = new StringBuilder();
 		var vars = Map.of("user", user.getJiraId());
 		var jqlTemplate = "assignee = ${user} AND status in (\"Groomed\", \"Dev On Hold\", \"Backlog\") ORDER BY priority DESC ";
 		var jql = StringSubstitutor.replace(jqlTemplate, vars, "${", "}");
@@ -76,7 +72,6 @@ public class JiraStatusService {
 	 * Represents the issues for the user that are in progress
 	 */
 	private String buildInProgressStatusForUser(User user) {
-		StringBuilder statusText = new StringBuilder();
 		var vars = Map.of("user", user.getJiraId());
 		var jqlTemplate = "assignee = ${user} AND status in (\"In Progress\", \"Dev In Progress\", \"Code Review\") ORDER BY updated DESC ";
 		var jql = StringSubstitutor.replace(jqlTemplate, vars, "${", "}");
@@ -111,9 +106,7 @@ public class JiraStatusService {
 		}
 	}
 
-
 	private String buildDoneStatusForUser(User user) {
-		StringBuilder statusText = new StringBuilder();
 		var vars = Map.of("user", user.getJiraId(), "hoursInPast", computeHoursPastForDone());
 		var jqlTemplate = "assignee was ${user} " +
 				" AND status in (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) " +
@@ -169,7 +162,6 @@ public class JiraStatusService {
 		}
 	}
 
-
 	private String buildIssueReportForReleases(String jql, int limit) {
 		var response = jiraRestClient.getSearchClient().searchJql(jql);
 		var statusText = new StringBuilder();
@@ -189,5 +181,4 @@ public class JiraStatusService {
 			throw new RuntimeException(e);
 		}
 	}
-
 }

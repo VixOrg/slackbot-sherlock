@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class SlackMessageService {
 
 	private final JiraStatusService jiraStatusService;
+	private final JiraSprintStatusService jiraSprintStatusService;
 	private final MethodsClient slackClient;
 	private final UserProperties userProperties;
 
@@ -51,7 +52,13 @@ public class SlackMessageService {
 		log.info("Posting last releases report to channel {}", channelId);
 		sendMessage(statusText, channelId);
 	}
-
+	
+	public void sendProjectSprintStatusReport(String channelId, String userId, String project) {
+	  log.info("#sendProjectSprintStatusReport");
+      var statusText = jiraSprintStatusService.buildProjectSprintStatusReport(userId, project);
+      log.info("Posting project sprint status report to channel {}", channelId);
+      sendMessage(statusText, channelId);
+	}
 
 	public void sendMessage(String message, String channelId) {
 		try {
@@ -63,7 +70,6 @@ public class SlackMessageService {
 			throw new RuntimeException(e);
 		}
 	}
-
 
 	private void threadSleep(long time) {
 		try {

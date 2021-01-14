@@ -1,0 +1,48 @@
+server:
+  port: 8080
+
+app:
+  slack:
+    token: something
+    signingSecret: something
+  jira:
+    username: boris.sedji@finologee.com
+    token: uKLRMY5KYQZUNO6M2d8K43C8
+    url: https://finologee.atlassian.net/
+  users:
+    - slackId: U784J8M51
+      jiraId: "557058:d332697f-ed64-413b-a97d-b22bbd1f5c0e"
+      wantsJiraStatusInChannel: true
+      id: bse
+    - slackId: U791G1WT0
+      jiraId: "557058:186007d9-742a-4b23-bcda-c30ef0bfc541"
+      id: tsa
+    - slackId: UDVU6PJUD
+      jiraId: "5be01caa59d0e84f8c7587e0"
+      id: rsi
+    - slackId: UMZGGGGUX
+      jiraId: "5d6cd1974e654c0db0af3d43"
+      id: nma
+    - slackId: UKNQTBVK9
+      jiraId: "5d036b062686680c5ae17e78"
+      id: ago
+    - slackId: UJC7P6QMN
+      jiraId: "5ccaad36d699e211e6a6b69b"
+      id: cge
+    - slackId: UJVNNKM35
+      jiraId: "5cf4d020ff02b50ea27b1895"
+      id: mma
+    - slackId: U01ADMX6D7S
+      jiraId: "5f4923351ac29c0045373284"
+      id: ala
+    - slackId: U018CLC0Y5U
+      jiraId: "557058:599bfeda-e31c-4724-a9a5-41afd3370f36"
+      id: rma
+  scheduler:
+    jira-status:
+      cron: 0 30 9 ? * MON-FRI
+      channelId: CHLBEN2HJ
+
+logging:
+  level:
+    com.slack: info
