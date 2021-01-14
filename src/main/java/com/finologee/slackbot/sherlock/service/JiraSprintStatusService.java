@@ -50,9 +50,9 @@ public class JiraSprintStatusService {
 			var statusText = new StringBuilder();
 
 			statusText.append(buildTicketStatusSummary(project, issues));
-			statusText.append(buildEstimateSummary(issues, "Σ Original Estimate","\t\t\t"));
+			statusText.append(buildEstimateSummary(issues, "Σ Original Estimate","\t\t"));
 			statusText.append(buildEstimateSummary(issues, "Σ Remaining Estimate", "\t"));
-			statusText.append(buildEstimateSummary(issues, "Σ Time Spent", "\t\t\t\t"));
+			statusText.append(buildEstimateSummary(issues, "Σ Time Spent", "\t\t\t\t\t"));
 
 			return statusText.toString();
 		} catch (Exception e) {
@@ -98,9 +98,9 @@ public class JiraSprintStatusService {
 		statusText.append(totalIssueCount).append(" issues in open sprint(s) in ").append(project)
 				.append(":\n\tTodo:\t\t\t\t\t").append(toDoIssueCount)
 				// .append("(").append(toDoStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tDev in progress\t\t").append(devInProgressIssueCount)
+				.append("\n\tDev in progress\t").append(devInProgressIssueCount)
 				// .append("(").append(devInProgressStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tIn testing\t\t\t").append(inTestingIssueCount)
+				.append("\n\tIn testing\t\t\t\t").append(inTestingIssueCount)
 				// .append("(").append(inTestingStatuses.stream().collect(Collectors.joining(","))).append(")")
 				.append("\n\tDone\t\t\t\t\t").append(doneIssueCount)
 				// .append("(").append(doneStatuses.stream().collect(Collectors.joining(","))).append(")")
