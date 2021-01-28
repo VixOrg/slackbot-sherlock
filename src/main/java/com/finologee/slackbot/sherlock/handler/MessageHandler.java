@@ -28,8 +28,14 @@ public class MessageHandler {
 		if (Stream.of("my status").allMatch(text.toLowerCase()::contains)) {
 			wantsUserJiraStatus(channelId, userId);
 		}
+		if (Stream.of("my weekly status").allMatch(text.toLowerCase()::contains)) {
+			wantsUserWeeklyJiraStatus(channelId, userId);
+		}
 		if (Stream.of("team status").allMatch(text.toLowerCase()::contains)) {
 			wantsTeamJiraStatus(channelId);
+		}
+		if (Stream.of("team weekly status").allMatch(text.toLowerCase()::contains)) {
+			wantsTeamWeeklyJiraStatus(channelId);
 		}
 		if (Stream.of("hello", "hi").anyMatch(text.toLowerCase()::contains)) {
 			displayGreetings(channelId, userId);
@@ -50,9 +56,19 @@ public class MessageHandler {
 		slackMessageService.sendJiraStatusForTeam(channelId);
 	}
 
+	public void wantsTeamWeeklyJiraStatus(String channelId) {
+		log.info("#wantsTeamJiraStatus");
+		slackMessageService.sendJiraStatusForTeam(channelId);
+	}
+
 	public void wantsUserJiraStatus(String channelId, String userId) {
 		log.info("#wantsUserJiraStatus userId={} channelId={}", userId, channelId);
 		slackMessageService.sendJiraStatusForUser(userId, channelId);
+	}
+
+	public void wantsUserWeeklyJiraStatus(String channelId, String userId) {
+		log.info("#wantsUserWeeklyJiraStatus userId={} channelId={}", userId, channelId);
+		slackMessageService.sendWeeklyJiraStatusForUser(userId, channelId);
 	}
 
 	public void wantsLastReleases(String channelId) {
@@ -77,7 +93,9 @@ public class MessageHandler {
 		message.append(" • hi, hello - greetings\n");
 		message.append(" • h e l p (no spaces) - display this message\n");
 		message.append(" • my status - display my status using Jira\n");
-		message.append(" • team status - display the team status (for users opted in to be in the wall of fame)\n");
+		message.append(" • my weekly status - display my weekly status\n");
+		message.append(" • team status - display the team status \n");
+		message.append(" • team weekly status - display team weekly status\n");
 		message.append(" • last release - display last releases from Jira\n");
 		message.append(" • <project> sprint status  - display the summary of the open sprint of <project> in Jira.\n\t\tExample: enpay sprint status\n");
 		message.append("That's it!");

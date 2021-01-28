@@ -28,6 +28,16 @@ public class SlackMessageService {
 		log.info("End of posting team status in {}", channelId);
 	}
 
+	public void sendWeeklyJiraStatusForTeam(String channelId) {
+		log.info("#sendWeeklyJiraStatusForTeam channelId={}", channelId);
+		userProperties.getUsers()
+				.forEach(user -> {
+					sendWeeklyJiraStatusForUser(user.getSlackId(), channelId);
+					threadSleep(1000);
+				});
+		log.info("End of posting team status in {}", channelId);
+	}
+
 
 	public void sendJiraStatusForUsersThatAgree(String channelId) {
 		log.info("#sendJiraStatusForUsersThatAgree");
@@ -39,9 +49,26 @@ public class SlackMessageService {
 		log.info("End of posting team status in {}", channelId);
 	}
 
+	public void sendWeeklyJiraStatusForUsersThatAgree(String channelId) {
+		log.info("#sendWeeklyJiraStatusForUsersThatAgree");
+		userProperties.getUsers().stream().filter(User::getWantsWeeklyJiraStatusInChannel)
+				.forEach(user -> {
+					sendWeeklyJiraStatusForUser(user.getSlackId(), channelId);
+					threadSleep(1000);
+				});
+		log.info("End of posting team status in {}", channelId);
+	}
+
 	public void sendJiraStatusForUser(String userId, String channelId) {
 		log.info("#sendJiraStatusForUser");
 		var statusText = jiraStatusService.buildStatusForUserBySlackId(userId);
+		log.info("Posting user status to channel {}", channelId);
+		sendMessage(statusText, channelId);
+	}
+
+	public void sendWeeklyJiraStatusForUser(String userId, String channelId) {
+		log.info("#sendJiraStatusForUser");
+		var statusText = jiraStatusService.buildWeeklyStatusForUserBySlackId(userId);
 		log.info("Posting user status to channel {}", channelId);
 		sendMessage(statusText, channelId);
 	}

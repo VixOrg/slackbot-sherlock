@@ -7,4 +7,5 @@ public class User {
 	private String slackId;
 	private String jiraId;
 	private Boolean wantsJiraStatusInChannel = false;
+	private Boolean wantsWeeklyJiraStatusInChannel = false;
 }

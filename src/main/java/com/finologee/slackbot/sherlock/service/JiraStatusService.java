@@ -1,5 +1,14 @@
 package com.finologee.slackbot.sherlock.service;
 
+import com.atlassian.jira.rest.client.api.JiraRestClient;
+import com.atlassian.jira.rest.client.api.domain.Issue;
+import com.finologee.slackbot.sherlock.config.props.UserProperties;
+import com.finologee.slackbot.sherlock.model.User;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringSubstitutor;
+import org.springframework.stereotype.Service;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,17 +18,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import com.atlassian.jira.rest.client.api.JiraRestClient;
-import com.atlassian.jira.rest.client.api.domain.Issue;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringSubstitutor;
-import org.springframework.stereotype.Service;
-
-import lombok.RequiredArgsConstructor;
-
-import com.finologee.slackbot.sherlock.config.props.UserProperties;
-import com.finologee.slackbot.sherlock.model.User;
-
 /**
  * This class is able to inspect statuses in jira
  */
@@ -28,25 +26,31 @@ import com.finologee.slackbot.sherlock.model.User;
 public class JiraStatusService {
 
 	private final JiraRestClient jiraRestClient;
-	private final UserProperties userProperties;
+	private final UserService userService;
 
 	public String buildStatusForUserBySlackId(String slackId) {
-		User user = userProperties.getUsers()
-				.stream()
-				.filter(u -> u.getSlackId().equals(slackId))
-				.findFirst()
-				.orElseThrow();
-		return buildStatusForUser(user);
+		return buildStatusForUser(userService.findBySlackId(slackId));
+	}
+
+	public String buildWeeklyStatusForUserBySlackId(String slackId) {
+		return buildWeeklyStatusForUser(userService.findBySlackId(slackId));
 	}
 
 	public String buildStatusForUser(User user) {
 		return String.format("Here is the status of <@%s> \n", user.getSlackId()) +
 				"What has been done recently :sunglasses: \n" +
-				buildDoneStatusForUser(user) +
+				buildDoneStatusForUser(user, 72) +
 				"What is in progress :female-construction-worker: \n" +
 				buildInProgressStatusForUser(user) +
 				"What is next :rocket: \n" +
 				buildNextItemStatusForUser(user) +
+				"\n--";
+	}
+
+	public String buildWeeklyStatusForUser(User user) {
+		return String.format("Here is the weekly status of <@%s> \n", user.getSlackId()) +
+				"What has been done recently :sunglasses: \n" +
+				buildDoneStatusForUser(user, 168) +
 				"\n--";
 	}
 
@@ -106,8 +110,15 @@ public class JiraStatusService {
 		}
 	}
 
-	private String buildDoneStatusForUser(User user) {
-		var vars = Map.of("user", user.getJiraId(), "hoursInPast", computeHoursPastForDone());
+	/**
+	 * Builds the slack report for done items
+	 *
+	 * @param user
+	 * @param lastHours - the last hours to consider for done status
+	 * @return the slack report for done items
+	 */
+	private String buildDoneStatusForUser(User user, Integer lastHours) {
+		var vars = Map.of("user", user.getJiraId(), "hoursInPast", computeHoursPastForDone(lastHours));
 		var jqlTemplate = "assignee was ${user} " +
 				" AND status in (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) " +
 				" AND status changed from (\"In Progress\", \"Selected For Development\", Backlog, Groomed, \"Dev In Progress\", \"Dev On Hold\", \"Code Review\") to (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) after -${hoursInPast}h " +
@@ -119,9 +130,8 @@ public class JiraStatusService {
 	/**
 	 * Depending on the day of the week, the hours in past change (weekend)
 	 */
-	private String computeHoursPastForDone() {
-		// three last days
-		Integer hours = 72;
+	private String computeHoursPastForDone(Integer lastHours) {
+		Integer hours = lastHours;
 		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK)).equals(DayOfWeek.MONDAY)) {
 			hours += 48;
 		}
