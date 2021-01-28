@@ -1,16 +1,14 @@
 package com.finologee.slackbot.sherlock.handler;
 
-import java.util.stream.Stream;
-
+import com.finologee.slackbot.sherlock.service.JiraSprintStatusService;
+import com.finologee.slackbot.sherlock.service.SlackMessageService;
 import com.slack.api.methods.MethodsClient;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import com.finologee.slackbot.sherlock.service.JiraSprintStatusService;
-import com.finologee.slackbot.sherlock.service.SlackMessageService;
+import java.util.stream.Stream;
 
 /**
  * When a message is received from slack
@@ -57,8 +55,8 @@ public class MessageHandler {
 	}
 
 	public void wantsTeamWeeklyJiraStatus(String channelId) {
-		log.info("#wantsTeamJiraStatus");
-		slackMessageService.sendJiraStatusForTeam(channelId);
+		log.info("#wantsTeamWeeklyJiraStatus");
+		slackMessageService.sendWeeklyJiraStatusForTeam(channelId);
 	}
 
 	public void wantsUserJiraStatus(String channelId, String userId) {
@@ -85,7 +83,7 @@ public class MessageHandler {
 		log.info("#wantsGreetings userId={} channelId={}", userId, channelId);
 		slackMessageService.sendMessage(String.format("Elementary, my dear <@%s>!", userId), channelId);
 	}
-	
+
 	public void displayHelp(String channelId, String userId) {
 		log.info("#wantsHelp userId={} channelId={}", userId, channelId);
 		var message = new StringBuilder();
