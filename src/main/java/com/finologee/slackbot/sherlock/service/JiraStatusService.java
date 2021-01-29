@@ -2,7 +2,6 @@ package com.finologee.slackbot.sherlock.service;
 
 import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.domain.Issue;
-import com.finologee.slackbot.sherlock.config.props.UserProperties;
 import com.finologee.slackbot.sherlock.model.User;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -37,9 +36,9 @@ public class JiraStatusService {
 	}
 
 	public String buildStatusForUser(User user) {
-		return String.format("Here is the status of <@%s> \n", user.getSlackId()) +
+		return String.format("Here is the *daily* status of <@%s> \n", user.getSlackId()) +
 				"What has been done recently :sunglasses: \n" +
-				buildDoneStatusForUser(user, 72) +
+				buildDoneStatusForUser(user, 24) +
 				"What is in progress :female-construction-worker: \n" +
 				buildInProgressStatusForUser(user) +
 				"What is next :rocket: \n" +
@@ -48,7 +47,7 @@ public class JiraStatusService {
 	}
 
 	public String buildWeeklyStatusForUser(User user) {
-		return String.format("Here is the weekly status of <@%s> \n", user.getSlackId()) +
+		return String.format("Here is the *weekly* status of <@%s> \n", user.getSlackId()) +
 				"What has been done recently :sunglasses: \n" +
 				buildDoneStatusForUser(user, 168) +
 				"\n--";
