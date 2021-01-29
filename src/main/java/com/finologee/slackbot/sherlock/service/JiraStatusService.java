@@ -37,7 +37,7 @@ public class JiraStatusService {
 
 	public String buildStatusForUser(User user) {
 		return String.format("Here is the *daily* status of <@%s> \n", user.getSlackId()) +
-				"What has been done recently :sunglasses: \n" +
+				"What has been done last day :sunglasses: \n" +
 				buildDoneStatusForUser(user, 24) +
 				"What is in progress :female-construction-worker: \n" +
 				buildInProgressStatusForUser(user) +
@@ -48,7 +48,7 @@ public class JiraStatusService {
 
 	public String buildWeeklyStatusForUser(User user) {
 		return String.format("Here is the *weekly* status of <@%s> \n", user.getSlackId()) +
-				"What has been done recently :sunglasses: \n" +
+				"What has been done *last 7 days* :sunglasses: \n" +
 				buildDoneStatusForUser(user, 168) +
 				"\n--";
 	}
