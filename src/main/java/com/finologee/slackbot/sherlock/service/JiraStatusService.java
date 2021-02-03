@@ -4,6 +4,7 @@ import com.atlassian.jira.rest.client.api.JiraRestClient;
 import com.atlassian.jira.rest.client.api.domain.Issue;
 import com.finologee.slackbot.sherlock.model.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringSubstitutor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.stream.StreamSupport;
 /**
  * This class is able to inspect statuses in jira
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class JiraStatusService {
@@ -40,7 +42,7 @@ public class JiraStatusService {
 		return String.format("Here is the *daily* status of <@%s> for *%s*\n", user.getSlackId(), localDate
 				.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))) +
 				"What has been done last day :sunglasses: \n" +
-				buildDoneStatusForUser(user, 24) +
+				buildDoneStatusForUser(user, computeHoursPastForDone(24)) +
 				"What is in progress :female-construction-worker: \n" +
 				buildInProgressStatusForUser(user) +
 				"What is next :rocket: \n" +
@@ -54,8 +56,8 @@ public class JiraStatusService {
 		return String.format("Here is the *weekly* status of <@%s> from *%s* to *%s* \n", user.getSlackId(), fromDate
 				.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), toDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))) +
 				"What has been done *last 7 days* :sunglasses: \n" +
-				buildDoneStatusForUser(user, 168) +
-				"\n--";
+				buildDoneStatusForUser(user, 168)  // last 7 days
+				+ "\n--";
 	}
 
 	/**
@@ -122,7 +124,7 @@ public class JiraStatusService {
 	 * @return the slack report for done items
 	 */
 	private String buildDoneStatusForUser(User user, Integer lastHours) {
-		var vars = Map.of("user", user.getJiraId(), "hoursInPast", computeHoursPastForDone(lastHours));
+		var vars = Map.of("user", user.getJiraId(), "hoursInPast", lastHours.toString());
 		var jqlTemplate = "assignee was ${user} " +
 				" AND status in (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) " +
 				" AND status changed from (\"In Progress\", \"Selected For Development\", Backlog, Groomed, \"Dev In Progress\", \"Dev On Hold\", \"Code Review\") to (\"Ready for testing\", \"Testing In Progress\", \"Testing Done\", \"Testing Blocked\", Closed) after -${hoursInPast}h " +
@@ -134,19 +136,25 @@ public class JiraStatusService {
 	/**
 	 * Depending on the day of the week, the hours in past change (weekend)
 	 */
-	private String computeHoursPastForDone(Integer lastHours) {
+	private Integer computeHoursPastForDone(Integer lastHours) {
 		Integer hours = lastHours;
-		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK)).equals(DayOfWeek.MONDAY)) {
-			hours += 48;
+		int numberOfDays = lastHours / 24;
+		var previousDate = LocalDate.now();
+		while (numberOfDays > 0) {
+			previousDate = previousDate.minusDays(1);
+			if (DayOfWeek.of(previousDate.get(ChronoField.DAY_OF_WEEK)).equals(DayOfWeek.SATURDAY)
+					|| DayOfWeek.of(previousDate.get(ChronoField.DAY_OF_WEEK))
+					.equals(DayOfWeek.SUNDAY)) {
+				hours += 24;
+			}
+			else {
+				numberOfDays -= 1;
+			}
 		}
-		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK)).equals(DayOfWeek.TUESDAY)) {
-			hours += 48;
+		if (log.isDebugEnabled()) {
+			log.debug("#computeHoursPastForDone lastHours={}, hours={}", lastHours, hours);
 		}
-		if (DayOfWeek.of(LocalDate.now().get(ChronoField.DAY_OF_WEEK))
-				.equals(DayOfWeek.WEDNESDAY)) {
-			hours += 48;
-		}
-		return hours.toString();
+		return hours;
 	}
 
 	private String buildIssueLine(Issue issue) {
