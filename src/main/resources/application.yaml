@@ -28,12 +28,18 @@ app:
     - slackId: UJVNNKM35
       jiraId: "5cf4d020ff02b50ea27b1895"
       id: mma
-    - slackId: U01ADMX6D7S
-      jiraId: "5f4923351ac29c0045373284"
-      id: ala
     - slackId: U018CLC0Y5U
       jiraId: "557058:599bfeda-e31c-4724-a9a5-41afd3370f36"
       id: rma
+    - slackId: U01M66RMT8X
+      jiraId: "5f36b07c3e9e2e004dbe1b57"
+      id: hsh
+    - slackId: UQD8LFQTW
+      jiraId: "5dca8599bb355b0ddbd1764b"
+      id: vzh
+    - slackId: UHJJ6ASTY
+      jiraId: "5ca1e7b9594253120d914623"
+      id: cba
   scheduler:
     jira-status:
       cron: 0 30 9 ? * MON-FRI

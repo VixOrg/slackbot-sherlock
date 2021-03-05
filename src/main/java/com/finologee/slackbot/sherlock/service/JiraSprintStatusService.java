@@ -96,13 +96,13 @@ public class JiraSprintStatusService {
 
 		var statusText = new StringBuilder();
 		statusText.append(totalIssueCount).append(" issues in open sprint(s) in ").append(project)
-				.append(":\n\tTodo: ").append(toDoIssueCount)
+				.append(":\n • Todo: ").append(toDoIssueCount)
 				// .append("(").append(toDoStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tDev in progress: ").append(devInProgressIssueCount)
+				.append("\n • Dev in progress: ").append(devInProgressIssueCount)
 				// .append("(").append(devInProgressStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tIn testing: ").append(inTestingIssueCount)
+				.append("\n • In testing: ").append(inTestingIssueCount)
 				// .append("(").append(inTestingStatuses.stream().collect(Collectors.joining(","))).append(")")
-				.append("\n\tDone: ").append(doneIssueCount)
+				.append("\n • Done: ").append(doneIssueCount)
 				// .append("(").append(doneStatuses.stream().collect(Collectors.joining(","))).append(")")
 				.append("\n\n");
 
