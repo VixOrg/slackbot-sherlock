@@ -5,41 +5,41 @@ app:
   jira:
     url: https://finologee.atlassian.net/
   users:
-    - slackId: U784J8M51
+    - id: bse # Boris Sedji
+      slackId: U784J8M51
       jiraId: "557058:d332697f-ed64-413b-a97d-b22bbd1f5c0e"
       wantsJiraStatusInChannel: true
       wantsWeeklyJiraStatusInChannel: true
-      id: bse
-    - slackId: U791G1WT0
+    - id: tsa # Tiago Santos
+      slackId: U791G1WT0
       jiraId: "557058:186007d9-742a-4b23-bcda-c30ef0bfc541"
-      id: tsa
-    - slackId: UDVU6PJUD
+    - id: rsi # Rocío Sirvent
+      slackId: UDVU6PJUD
       jiraId: "5be01caa59d0e84f8c7587e0"
-      id: rsi
-    - slackId: UMZGGGGUX
+    - id: nma # Nico Madry
+      slackId: UMZGGGGUX
       jiraId: "5d6cd1974e654c0db0af3d43"
-      id: nma
-    - slackId: UKNQTBVK9
+    - id: ago # André Gomes
+      slackId: UKNQTBVK9
       jiraId: "5d036b062686680c5ae17e78"
-      id: ago
-    - slackId: UJC7P6QMN
+    - id: cge # Charles Gérardin
+      slackId: UJC7P6QMN
       jiraId: "5ccaad36d699e211e6a6b69b"
-      id: cge
-    - slackId: UJVNNKM35
-      jiraId: "5cf4d020ff02b50ea27b1895"
-      id: mma
-    - slackId: U018CLC0Y5U
+    - id: ame # Arsen Melkumiants
+      slackId: U01T80SFZRN
+      jiraId: "607805c3c9d3a20072f70f2a"
+    - id: rma # Roman Martsinovich
+      slackId: U018CLC0Y5U
       jiraId: "557058:599bfeda-e31c-4724-a9a5-41afd3370f36"
-      id: rma
-    - slackId: U01M66RMT8X
+    - id: hsh # Heorhii Shtefanovych
+      slackId: U01M66RMT8X
       jiraId: "5f36b07c3e9e2e004dbe1b57"
-      id: hsh
-    - slackId: UQD8LFQTW
+    - id: spr # Stanislav Prikhodko
+      slackId: U01UASU39QD
+      jiraId: "5bc05042f1c86403ff71c42c"
+    - id: vzh # Violetta Zhdanovich
+      slackId: UQD8LFQTW
       jiraId: "5dca8599bb355b0ddbd1764b"
-      id: vzh
-    - slackId: UHJJ6ASTY
-      jiraId: "5ca1e7b9594253120d914623"
-      id: cba
   scheduler:
     jira-status:
       cron: 0 30 9 ? * MON-FRI
